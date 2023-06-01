@@ -1,0 +1,20 @@
+@import "../../assets/styles/global.scss";
+
+.custom-btn {
+  padding: 12px 35px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #2a85ff;
+  border-radius: 12px;
+
+  & > svg {
+    width: 24px;
+    height: 24px;
+    color: $lightColor;
+  }
+
+  & > span {
+    @include fontStyles(700, 15px, 24px, $whiteColor);
+  }
+}
