@@ -1,0 +1,26 @@
+@import "../../assets/styles/global.scss";
+
+.hero {
+  padding-bottom: 48px;
+  display: grid;
+  gap: 24px;
+  &-navigate {
+    display: flex;
+    align-items: center;
+
+    & > span,
+    & > a {
+      @include fontStyles(400, 12px, 24px, $blackColor);
+    }
+
+    & > svg {
+      width: 24px;
+      height: 24px;
+      color: $blackColor;
+    }
+  }
+
+  &-title {
+    @include fontStyles(600, 46px, 64px, $blackColor);
+  }
+}

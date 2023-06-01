@@ -1,5 +1,7 @@
 $lightColor: #ffffff;
 $whiteColor: #fcfcfc;
+$blackColor: #000000;
+$blueColor: #2a85ff;
 
 * {
   margin: 0;
@@ -9,6 +11,7 @@ $whiteColor: #fcfcfc;
   text-decoration: none;
   letter-spacing: -0.01em;
   border: none;
+  font-family: "Noto Sans", sans-serif;
 }
 
 body {
@@ -27,4 +30,21 @@ body {
   font-weight: $weight;
   line-height: $height;
   color: $color;
+}
+
+.scaleAnimation {
+  animation: scale 1s infinite;
+
+  @keyframes scale {
+    0% {
+      scale: 1;
+    }
+    50% {
+      scale: 1.5;
+    }
+
+    100% {
+      scale: 1;
+    }
+  }
 }

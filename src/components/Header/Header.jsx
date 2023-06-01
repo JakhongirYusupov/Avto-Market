@@ -5,7 +5,7 @@ import { RxPerson } from "react-icons/rx";
 export default function Header() {
   return (
     <div className="header">
-      <CustomBtn title={"Profile"} icon={<RxPerson />} />
+      <CustomBtn title={"Profile"} bold={true} icon={<RxPerson />} />
     </div>
   );
 }

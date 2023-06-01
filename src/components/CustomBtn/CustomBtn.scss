@@ -5,8 +5,13 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #2a85ff;
+  background: $blueColor;
   border-radius: 12px;
+  cursor: pointer;
+
+  &-thin {
+    padding: 12px 9px;
+  }
 
   & > svg {
     width: 24px;
