@@ -1,0 +1,120 @@
+@import "../../assets/styles/global.scss";
+
+.admin {
+  display: flex;
+
+  &-bar {
+    width: 20%;
+    height: 100%;
+    padding: 24px;
+    background-color: $whiteColor;
+    border-right: 1px solid #e3e3e3;
+
+    &-list {
+      padding-top: 120px;
+      display: grid;
+      gap: 8px;
+
+      &-item {
+        padding: 12px 0;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+
+        & > svg {
+          width: 24px;
+          height: 24px;
+          color: #1a1d1f;
+        }
+
+        & > span {
+          @include fontStyles(600, 15px, 24px, $greyColor);
+        }
+      }
+    }
+  }
+
+  &-main {
+    width: 80%;
+    background-color: #e3e3e3;
+
+    &-header {
+      padding: 12px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: $whiteColor;
+
+      &-profile {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+
+        &-img {
+          width: 48px;
+          height: 48px;
+          overflow: hidden;
+          border-radius: 50%;
+          object-fit: cover;
+          background-color: #ffbc99;
+        }
+
+        &-note {
+          position: relative;
+          cursor: pointer;
+          & > svg {
+            width: 24px;
+            height: 24px;
+            color: $greyColor;
+          }
+
+          &-dot {
+            padding: 5px;
+            position: absolute;
+            right: 0;
+            top: 0;
+            background-color: $redColor;
+            border-radius: 50%;
+          }
+        }
+      }
+    }
+
+    &-cars {
+      margin: 40px;
+      padding: 24px;
+      background-color: $lightColor;
+      border-radius: 8px;
+
+      &-hero {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        &-title {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+
+          &-color {
+            width: 16px;
+            height: 32px;
+            background: #ffd88d;
+            border-radius: 4px;
+          }
+
+          & > h1 {
+            @include fontStyles(600, 20px, 32px, #1a1d1f);
+          }
+        }
+
+        &-btns {
+          display: flex;
+          align-items: center;
+          gap: 32px;
+        }
+      }
+    }
+  }
+}

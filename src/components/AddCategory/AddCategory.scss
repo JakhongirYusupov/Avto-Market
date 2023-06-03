@@ -1,0 +1,128 @@
+@import "../../assets/styles/global.scss";
+
+.category {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+
+  &-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    &-close {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background-color: #efefef;
+      cursor: pointer;
+      & > svg {
+        width: 16px;
+        height: 16px;
+        color: $blackColor;
+      }
+    }
+
+    &-color {
+      width: 16px;
+      height: 32px;
+      background: #cabdff;
+      border-radius: 4px;
+    }
+  }
+
+  &-carForm {
+    height: 80vh;
+    overflow-y: scroll;
+  }
+
+  &-form {
+    width: 80%;
+    position: absolute;
+    padding: 34px 24px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: $whiteColor;
+    box-shadow: 0px 0px 14px -4px rgba(0, 0, 0, 0.05),
+      0px 32px 48px -8px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(16px);
+    border-radius: 16px;
+
+    &-list {
+      padding: 26px 0 16px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      border-bottom: 1px solid #efefef;
+
+      &-item {
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+
+        & > span {
+          @include fontStyles(600, 14px, 24px, #33383f);
+        }
+
+        & > input,
+        & > select,
+        & > textarea {
+          padding: 12px;
+          width: 100%;
+          outline: none;
+          background: #f4f4f4;
+          border-radius: 12px;
+        }
+
+        & > textarea {
+          height: 200px;
+          resize: none;
+        }
+      }
+    }
+    &-button {
+      padding-top: 24px;
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+
+  &-image {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    width: 100%;
+    outline: none;
+    background: #f4f4f4;
+    border-radius: 12px;
+    gap: 12px;
+    cursor: pointer;
+
+    & > span {
+      @include fontStyles(400, 14px, 24px, #9a9fa5);
+    }
+
+    & > input {
+      display: none;
+    }
+
+    & > svg {
+      width: 24px;
+      height: 24px;
+      color: $greyColor;
+    }
+  }
+}

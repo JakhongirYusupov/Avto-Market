@@ -1,0 +1,74 @@
+@import "../../assets/styles/global.scss";
+.car-table {
+  width: 100%;
+  padding-top: 44px;
+  border-collapse: collapse;
+
+  &-action {
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    & svg {
+      width: 24px;
+      height: 24px;
+      color: $blackColor;
+    }
+  }
+
+  & th {
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: start;
+    @include fontStyles(700, 15px, 24px, #1a1d1f);
+  }
+
+  & tr {
+    height: 58px;
+  }
+
+  & tr > th:first-child {
+    color: $greyColor;
+  }
+
+  & > thead {
+    & th {
+      color: $greyColor;
+    }
+
+    & > tr {
+      height: 40px;
+      & > th:nth-child(1) {
+        width: 22px;
+      }
+      & > th:nth-child(2) {
+        width: 122px;
+      }
+      & > th:nth-child(3) {
+        width: 140px;
+      }
+      & > th:nth-child(4) {
+        width: 94px;
+      }
+      & > th:nth-child(5) {
+        width: 94px;
+      }
+      & > th:nth-child(6) {
+        width: 94px;
+      }
+      & > th:nth-child(7) {
+        width: 94px;
+      }
+      & > th:nth-child(8) {
+        width: 148px;
+      }
+    }
+  }
+  & > tbody,
+  & > thead {
+    & > tr:not(:first-child) {
+      border-bottom: 1pt solid #efefef;
+    }
+  }
+}
