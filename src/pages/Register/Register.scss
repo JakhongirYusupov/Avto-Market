@@ -1,0 +1,51 @@
+.register {
+  &-form {
+    margin: 100px auto 0;
+    padding: 24px;
+    max-width: 50%;
+    background: #fcfcfc;
+    box-shadow: 0px 0px 14px -4px rgba(0, 0, 0, 0.05),
+      0px 32px 48px -8px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(16px);
+    border-radius: 16px;
+
+    &-img {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      & > img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 50%;
+        box-shadow: 0px 0px 14px -4px rgba(0, 0, 0, 0.05),
+          0px 32px 48px -8px rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+
+  &-password {
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    width: 24px;
+    height: 24px;
+    transform: translate(-50%);
+    cursor: pointer;
+
+    &-wrapper {
+      position: relative;
+    }
+  }
+
+  &-btn {
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+
+    & > a {
+      color: blue;
+      text-decoration: underline;
+    }
+  }
+}
