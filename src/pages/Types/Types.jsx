@@ -2,85 +2,37 @@ import "./Types.scss";
 import Header from "../../components/Header/Header";
 import { useLocation } from "react-router-dom";
 import HeaderHero from "../../components/HeaderHero/HeaderHero";
-import image from "../../assets/images/nexia.png";
 import Card from "../../components/Card/Card";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getCars } from "../../reduxToolkit/carSlice/extraReducer";
+import Spinner from "../../components/Spinner/Spinner";
 
 export default function Types() {
-  const url = useLocation();
-  console.log(url);
+  const { search } = useLocation();
+  const { data, loading, error } = useSelector((state) => state.carSlice);
+
+  const dispatch = useDispatch();
   const links = [
     { title: "Modellari", url: "/" },
     { title: "Chevrolet turlari" },
   ];
 
-  const fake = [
-    {
-      id: 1,
-      image,
-      model: "CHEVROlet Nexia",
-      cost: 400000000,
-      view: 400,
-      likes: 324,
-    },
-    {
-      id: 2,
-      image,
-      model: "Lada vesta",
-      cost: 400000000,
-      view: 400,
-      likes: 324,
-    },
-    {
-      id: 3,
-      image,
-      model: "lamborghini urus",
-      cost: 400000000,
-      view: 400,
-      likes: 324,
-    },
-    {
-      id: 4,
-      image,
-      model: "CHEVROlet gengtra",
-      cost: 400000000,
-      view: 400,
-      likes: 324,
-    },
-    {
-      id: 5,
-      image,
-      model: "ferrari f1",
-      cost: 400000000,
-      view: 400,
-      likes: 324,
-    },
-    {
-      id: 6,
-      image,
-      model: "CHEVROlet tracker 2",
-      cost: 400000000,
-      view: 400,
-      likes: 324,
-    },
-    {
-      id: 7,
-      image,
-      model: "CHEVROlet maluba",
-      cost: 400000000,
-      view: 400,
-      likes: 324,
-    },
-  ];
+  useEffect(() => {
+    dispatch(getCars(search.split("=")[1]));
+  }, [dispatch, search]);
 
   return (
     <main className="types">
+      {loading ? <Spinner /> : null}
+      {error ? error : null}
       <div className="container">
         <Header />
         <HeaderHero links={links} title={"Modellar turlari"} />
         <section className="types-card-list">
-          {fake.map((el) => (
-            <Card key={el.id} data={el} />
-          ))}
+          {data.length
+            ? data?.map((el) => <Card key={el.id} data={el} />)
+            : null}
         </section>
       </div>
     </main>

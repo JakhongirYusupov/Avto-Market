@@ -1,85 +1,120 @@
 import { useLocation } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import HeaderHero from "../../components/HeaderHero/HeaderHero";
-import image from "../../assets/images/maluba.png";
-import nexia from "../../assets/images/nexia.png";
 import "./Detail.scss";
 import ThreeModel from "../../components/3Dmodel/3Dmodel";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getCarInfo } from "../../reduxToolkit/carInfo/extraReducer";
+import { serverImgUrl } from "../../utils/api";
+import Spinner from "../../components/Spinner/Spinner";
+import { getCategory } from "../../reduxToolkit/categorySlice/extraReducer";
 
 export default function Detail() {
   const { search } = useLocation();
   const [threeModel, setThreeModel] = useState(1);
+  const { info, infoLoading, infoError } = useSelector(
+    (state) => state.carInfo
+  );
+  const dispatch = useDispatch();
+  const category = useSelector((state) => state.categorySlice);
+
   const links = [
     { title: "Modellari", url: "/" },
     {
       title: "Chevrolet turlari",
       url: `/model-types/${search.split("&")[0]}`,
     },
-    { title: "Chevrolet Malibu" },
+    { title: info?.name },
   ];
+
+  useEffect(() => {
+    dispatch(
+      getCarInfo({
+        categoryId: +search.split("&")[0].split("=")[1],
+        carId: +search.split("&")[1].split("=")[1],
+      })
+    );
+    dispatch(getCategory());
+  }, [dispatch, search]);
+
   return (
     <main className="detail">
+      {infoLoading ? <Spinner /> : null}
+      {infoError ? infoError : null}
       <div className="container">
         <Header />
-        <HeaderHero links={links} title={"Chevrolet Malibu"} />
+        <HeaderHero links={links} title={info?.name} />
         <section className="detail-wrapper">
           <div className="detail-info">
             <div className="detail-info-hero">
-              <h2>Chevrolet Malibu</h2>
-              <p>329 900 000 so‘m dan</p>
-              <img src={image} alt="carimage" />
+              <h2>{info?.name}</h2>
+              <p>{info?.narxi} dollar</p>
+              <img src={serverImgUrl + info?.tashqi_rasm} alt="carimage" />
             </div>
             <div className="detail-info-desc">
               <div className="detail-info-desc-item">
                 <strong>Marka:</strong>
-                <span>CHEVROLeT</span>
+                <span>
+                  {
+                    category?.data?.find((el) => el.id === info?.category_id)
+                      ?.category
+                  }
+                </span>
               </div>
               <div className="detail-info-desc-item">
                 <strong>Tanirovkasi:</strong>
-                <span>Yo‘q</span>
+                <span>{info?.tanirovka}</span>
               </div>
               <div className="detail-info-desc-item">
                 <strong>Motor:</strong>
-                <span>1.6</span>
+                <span>{info?.motor}</span>
               </div>
               <div className="detail-info-desc-item">
                 <strong>Year:</strong>
-                <span>2016</span>
+                <span>{info?.year}</span>
               </div>
               <div className="detail-info-desc-item">
                 <strong>Color:</strong>
-                <span>Oq</span>
+                <span>{info?.color}</span>
               </div>
               <div className="detail-info-desc-item">
                 <strong>Distance:</strong>
-                <span>3000 km</span>
+                <span>{info?.distance}</span>
               </div>
               <div className="detail-info-desc-item">
                 <strong>Gearbook:</strong>
-                <span>Avtomat karobka</span>
+                <span>{info?.gearbook}</span>
               </div>
               <div className="detail-info-desc-item">
                 <p className="detail-info-desc-item-text">
-                  <strong>Deseription:</strong> Mishina ideal holatda krasska
-                  top toza 100tali. Ayol kishiniki judayam akuratno haydalgan.
+                  <strong>Deseription:</strong>
+                  {info?.info}
                 </p>
               </div>
               <div className="detail-info-desc-item-border"></div>
               <div className="detail-info-desc-item detail-info-desc-item-cost">
                 <strong>Umumiy xarajat:</strong>
-                <span>329 900 000 so'm dan</span>
+                <span>{info?.narxi} dollardan</span>
               </div>
             </div>
           </div>
           <div className="detail-media">
             <div className="detail-media-wrapper">
               {threeModel === 1 ? (
-                <ThreeModel />
+                <ThreeModel url={info?.three_model} />
               ) : threeModel === 2 ? (
-                <img className="detail-media-image" src={image} alt="error" />
+                <img
+                  className="detail-media-image"
+                  src={serverImgUrl + info?.tashqi_rasm[0]}
+                  alt="error"
+                />
               ) : threeModel === 3 ? (
-                <img className="detail-media-image" src={nexia} alt="error" />
+                <img
+                  className="detail-media-image"
+                  src={serverImgUrl + info?.ichki_rasm[0]}
+                  alt="error"
+                />
               ) : null}
             </div>
             <p className="detail-media-desc">

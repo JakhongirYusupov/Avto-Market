@@ -7,6 +7,7 @@ import {
   AiTwotoneHeart,
 } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
+import { serverImgUrl } from "../../utils/api";
 
 export default function Card({ data, model }) {
   const { search } = useLocation();
@@ -16,19 +17,41 @@ export default function Card({ data, model }) {
     <div className="card">
       {search.includes("type") ? (
         <Link to={`/model/?type=${search.split("=")[1]}&model=${data?.id}`}>
-          <img src={data?.image} alt="carimage" />
+          <img
+            src={
+              serverImgUrl +
+              (data?.image
+                ? data.image
+                : data?.tashqi_rasm
+                ? data?.tashqi_rasm[0]
+                : null)
+            }
+            alt="carimage"
+          />
         </Link>
       ) : (
         <Link key={data.id} to={`/model-types/?type=${data.id}`}>
-          <img src={data?.image} alt="carimage" />
+          <img
+            src={
+              serverImgUrl +
+              (data?.image
+                ? data.image
+                : data?.tashqi_rasm
+                ? data?.tashqi_rasm[0]
+                : null)
+            }
+            alt="carimage"
+          />
         </Link>
       )}
 
-      <p className="card-title">{data?.model}</p>
+      <p className="card-title">
+        {data?.category ? data?.category : data?.name ? data?.name : null}
+      </p>
       {model ? null : (
         <>
-          <p>Narxi: {data?.cost}</p>
-          <div className="card-action">
+          <p>Narxi: {data?.narxi} dollar</p>
+          {/* <div className="card-action">
             <div
               className="card-action-like"
               onClick={() => setactiveLike((state) => !state)}
@@ -42,10 +65,10 @@ export default function Card({ data, model }) {
             </div>
             <div className="card-action-view">
               <AiFillEye />
-              <span>{data?.view}</span>
+              <span>{data?.}</span>
             </div>
             <AiOutlineShoppingCart className="card-action-korzina" />
-          </div>
+          </div> */}
         </>
       )}
     </div>
