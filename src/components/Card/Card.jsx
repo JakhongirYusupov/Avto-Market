@@ -51,7 +51,7 @@ export default function Card({ data, model }) {
       {model ? null : (
         <>
           <p>Narxi: {data?.narxi} dollar</p>
-          {/* <div className="card-action">
+          <div className="card-action">
             <div
               className="card-action-like"
               onClick={() => setactiveLike((state) => !state)}
@@ -65,10 +65,10 @@ export default function Card({ data, model }) {
             </div>
             <div className="card-action-view">
               <AiFillEye />
-              <span>{data?.}</span>
+              <span>{data?.views}</span>
             </div>
             <AiOutlineShoppingCart className="card-action-korzina" />
-          </div> */}
+          </div>
         </>
       )}
     </div>

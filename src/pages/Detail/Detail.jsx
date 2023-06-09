@@ -3,116 +3,123 @@ import Header from "../../components/Header/Header";
 import HeaderHero from "../../components/HeaderHero/HeaderHero";
 import "./Detail.scss";
 import ThreeModel from "../../components/3Dmodel/3Dmodel";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getCarInfo } from "../../reduxToolkit/carInfo/extraReducer";
+import { useState } from "react";
 import { serverImgUrl } from "../../utils/api";
 import Spinner from "../../components/Spinner/Spinner";
-import { getCategory } from "../../reduxToolkit/categorySlice/extraReducer";
+import { useQuery } from "@apollo/client";
+import { GET_CARS_INFO, GET_CATEGORY } from "../../utils/query";
 
 export default function Detail() {
   const { search } = useLocation();
   const [threeModel, setThreeModel] = useState(1);
-  const { info, infoLoading, infoError } = useSelector(
-    (state) => state.carInfo
-  );
-  const dispatch = useDispatch();
-  const category = useSelector((state) => state.categorySlice);
+  const [data, setData] = useState([]);
+  const [category, setCategory] = useState([]);
+
+  const { loading } = useQuery(GET_CARS_INFO, {
+    onCompleted: ({ getCarInfo }) => {
+      if (getCarInfo?.status === 200) setData(getCarInfo?.data);
+      else alert(getCarInfo?.message);
+    },
+    onError: (error) => console.log(error),
+    variables: {
+      categoryId: +search.split("&")[0].split("=")[1],
+      carId: +search.split("&")[1].split("=")[1],
+    },
+  });
+
+  const { loading: categoryLoading } = useQuery(GET_CATEGORY, {
+    onCompleted: ({ getCategory }) => setCategory(getCategory?.data),
+    onError: (error) => alert(error?.message),
+  });
 
   const links = [
     { title: "Modellari", url: "/" },
     {
-      title: "Chevrolet turlari",
+      title: `${
+        category?.find((el) => el?.id === +search.split("&")[0].split("=")[1])
+          ?.category
+      } turlari`,
       url: `/model-types/${search.split("&")[0]}`,
     },
-    { title: info?.name },
+    { title: data?.name },
   ];
 
-  useEffect(() => {
-    dispatch(
-      getCarInfo({
-        categoryId: +search.split("&")[0].split("=")[1],
-        carId: +search.split("&")[1].split("=")[1],
-      })
-    );
-    dispatch(getCategory());
-  }, [dispatch, search]);
+  console.log(category);
 
   return (
     <main className="detail">
-      {infoLoading ? <Spinner /> : null}
-      {infoError ? infoError : null}
+      {loading || categoryLoading ? <Spinner /> : null}
       <div className="container">
         <Header />
-        <HeaderHero links={links} title={info?.name} />
+        <HeaderHero links={links} title={data?.name} />
         <section className="detail-wrapper">
           <div className="detail-info">
             <div className="detail-info-hero">
-              <h2>{info?.name}</h2>
-              <p>{info?.narxi} dollar</p>
-              <img src={serverImgUrl + info?.tashqi_rasm} alt="carimage" />
+              <h2>{data?.name}</h2>
+              <p>{data?.narxi} dollar</p>
+              <img src={serverImgUrl + data?.tashqi_rasm} alt="carimage" />
             </div>
             <div className="detail-info-desc">
               <div className="detail-info-desc-item">
                 <strong>Marka:</strong>
                 <span>
                   {
-                    category?.data?.find((el) => el.id === info?.category_id)
+                    category?.find((el) => el.id === data?.category_id)
                       ?.category
                   }
                 </span>
               </div>
               <div className="detail-info-desc-item">
                 <strong>Tanirovkasi:</strong>
-                <span>{info?.tanirovka}</span>
+                <span>{data?.tanirovka}</span>
               </div>
               <div className="detail-info-desc-item">
                 <strong>Motor:</strong>
-                <span>{info?.motor}</span>
+                <span>{data?.motor}</span>
               </div>
               <div className="detail-info-desc-item">
                 <strong>Year:</strong>
-                <span>{info?.year}</span>
+                <span>{data?.year}</span>
               </div>
               <div className="detail-info-desc-item">
                 <strong>Color:</strong>
-                <span>{info?.color}</span>
+                <span>{data?.color}</span>
               </div>
               <div className="detail-info-desc-item">
                 <strong>Distance:</strong>
-                <span>{info?.distance}</span>
+                <span>{data?.distance}</span>
               </div>
               <div className="detail-info-desc-item">
                 <strong>Gearbook:</strong>
-                <span>{info?.gearbook}</span>
+                <span>{data?.gearbook}</span>
               </div>
               <div className="detail-info-desc-item">
                 <p className="detail-info-desc-item-text">
                   <strong>Deseription:</strong>
-                  {info?.info}
+                  {data?.info}
                 </p>
               </div>
               <div className="detail-info-desc-item-border"></div>
               <div className="detail-info-desc-item detail-info-desc-item-cost">
                 <strong>Umumiy xarajat:</strong>
-                <span>{info?.narxi} dollardan</span>
+                <span>{data?.narxi} dollardan</span>
               </div>
             </div>
           </div>
           <div className="detail-media">
             <div className="detail-media-wrapper">
               {threeModel === 1 ? (
-                <ThreeModel url={info?.three_model} />
+                <ThreeModel url={data?.three_model} />
               ) : threeModel === 2 ? (
                 <img
                   className="detail-media-image"
-                  src={serverImgUrl + info?.tashqi_rasm[0]}
+                  src={serverImgUrl + data?.tashqi_rasm[0]}
                   alt="error"
                 />
               ) : threeModel === 3 ? (
                 <img
                   className="detail-media-image"
-                  src={serverImgUrl + info?.ichki_rasm[0]}
+                  src={serverImgUrl + data?.ichki_rasm[0]}
                   alt="error"
                 />
               ) : null}
@@ -125,6 +132,7 @@ export default function Detail() {
             <div className="detail-media-select">
               <label htmlFor="3D model">
                 <input
+                  checked={threeModel === 1 ? true : false}
                   onChange={() => setThreeModel(1)}
                   type="radio"
                   name="media"

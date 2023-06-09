@@ -4,7 +4,7 @@ export default function ThreeModel({ url }) {
   return (
     <div className="model">
       <iframe
-        autoplay={true}
+        autoPlay={true}
         className="model"
         title="Chevrolet Damas 3D model - Sketchfab"
         src={url}
